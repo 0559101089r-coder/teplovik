@@ -1,0 +1,86 @@
+import { createContext, useState, useEffect } from "react";
+import * as api from "./shared/constants";
+import { toast } from "react-toastify";
+
+export const CartContext = createContext();
+
+export const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchCart = async () => {
+    try {
+      setIsLoading(true);
+      const data = await api.getCart();
+      // Map backend CartItem to local state format if needed
+      const items = data.items.map(item => ({
+        id: item.product,
+        product_id: item.product,
+        title: item.product_name,
+        price: item.product_price,
+        image: item.product_image, // Ensure backend provides this
+        qty: item.quantity,
+        total: item.total
+      }));
+      setCartItems(items);
+    } catch (error) {
+      console.error("Failed to fetch cart:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  const addToCart = async (product) => {
+    try {
+      await api.addToCart({
+        product: product.id,
+        quantity: product.qty || 1
+      });
+      fetchCart();
+      toast.success("Товар успешно добавлен в корзину!");
+    } catch (error) {
+      toast.error("Ошибка при добавлении в корзину");
+    }
+  };
+
+  const removeFromCart = async (id) => {
+    try {
+      await api.removeFromCart(id);
+      fetchCart();
+    } catch (error) {
+      toast.error("Ошибка при удалении из корзины");
+    }
+  };
+
+  const updateQty = async (id, delta) => {
+    const item = cartItems.find(i => i.id === id);
+    if (item) {
+      try {
+        await api.addToCart({
+          product: id,
+          quantity: Math.max(1, item.qty + delta)
+        });
+        fetchCart();
+      } catch (error) {
+        toast.error("Ошибка при обновлении количества");
+      }
+    }
+  };
+
+  const clearCart = () => {
+    // Backend might not have a clear cart endpoint, so we might need to remove each item
+    // or just clear local state if that's acceptable.
+    // For now, let's keep it simple.
+    setCartItems([]);
+  };
+
+  return (
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQty, clearCart, isLoading }}>
+      {children}
+    </CartContext.Provider>
+  );
+};
