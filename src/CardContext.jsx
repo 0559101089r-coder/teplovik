@@ -17,10 +17,12 @@ export const CartProvider = ({ children }) => {
         id: item.product,
         product_id: item.product,
         title: item.product_name,
-        price: item.product_price,
-        image: item.product_image, // Ensure backend provides this
+        price: Number(item.product_price),
+        image: item.product_image || item.image,
         qty: item.quantity,
-        total: item.total
+        total: Number(item.total),
+        selectedSize: item.selected_size,
+        selectedColor: item.selected_color
       }));
       setCartItems(items);
     } catch (error) {
@@ -38,7 +40,9 @@ export const CartProvider = ({ children }) => {
     try {
       await api.addToCart({
         product: product.id,
-        quantity: product.qty || 1
+        quantity: product.qty || 1,
+        selected_size: product.selectedSize,
+        selected_color: product.selectedColor
       });
       fetchCart();
       toast.success("Товар успешно добавлен в корзину!");

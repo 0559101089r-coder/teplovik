@@ -7,7 +7,7 @@ import Counter from "../../counter/Counter";
 export default function CartPage() {
   const { cartItems, removeFromCart, clearCart, isLoading, updateQty } = useContext(CartContext);
 
-  const total = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+  const total = cartItems.reduce((acc, item) => acc + (Number(item.price) * item.qty), 0);
 
   if (isLoading) {
     return (
@@ -53,13 +53,21 @@ export default function CartPage() {
                   <div className="col-span-6 flex items-center gap-4">
                     <img src={item.image} alt="" className="w-20 h-20 object-contain" />
                     <div>
-                      <div className="font-semibold leading-tight">{item.title}</div>
-                      <div className="text-gray-400 text-sm">Код: {item.code || item.id}</div>
+                      <div className="font-semibold leading-tight mb-1">{item.title}</div>
+                      <div className="flex flex-col gap-0.5">
+                        <div className="text-gray-400 text-xs">Код: {item.code || item.id}</div>
+                        {item.selectedSize && (
+                          <div className="text-gray-600 text-xs">Размер: <span className="font-medium">{item.selectedSize}</span></div>
+                        )}
+                        {item.selectedColor && (
+                          <div className="text-gray-600 text-xs">Цвет: <span className="font-medium">{item.selectedColor}</span></div>
+                        )}
+                      </div>
                     </div>
                   </div>
 
                   <div className="col-span-2 font-medium">
-                    {item.price.toLocaleString()} сом
+                    {Number(item.price).toLocaleString()} сом
                   </div>
 
                   <div className="col-span-2 flex justify-center">
@@ -70,7 +78,7 @@ export default function CartPage() {
                   </div>
 
                   <div className="col-span-2 flex items-center justify-end gap-4 font-medium">
-                    {(item.price * item.qty).toLocaleString()} сом
+                    {(Number(item.price) * item.qty).toLocaleString()} сом
                     <img
                       src={closeIcon}
                       className="w-4 cursor-pointer opacity-60 hover:opacity-100"

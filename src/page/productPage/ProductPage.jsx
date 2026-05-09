@@ -16,8 +16,19 @@ export default function ProductPage() {
 
   const { data: product, isLoading, isError } = useProductById(id);
 
-  const sizes = [20, 25, 32, 40, 50, 63];
-  const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+
+  React.useEffect(() => {
+    if (product) {
+      if (product.sizes?.length > 0 && !selectedSize) {
+        setSelectedSize(product.sizes[0].size);
+      }
+      if (product.colors?.length > 0 && !selectedColor) {
+        setSelectedColor(product.colors[0].name);
+      }
+    }
+  }, [product]);
 
   const { getCount } = useCounterStore();
   const count = getCount(id);
@@ -43,7 +54,12 @@ export default function ProductPage() {
   }
 
   const handleAddToCart = () => {
-    addToCart({ ...product, qty: count });
+    addToCart({ 
+      ...product, 
+      qty: count,
+      selectedSize: selectedSize || (product.sizes?.[0]?.size),
+      selectedColor: selectedColor || (product.colors?.[0]?.name)
+    });
     navigate("/cart");
   };
 
@@ -83,32 +99,47 @@ export default function ProductPage() {
             <img src={manufacturerLogo} className="h-8" />
           </div>
 
-          <div className="mb-6">
-            <div className="text-[16px] font-medium mb-4">Размер:</div>
-            <div className="flex gap-4">
-              {product.sizes ? (
-                <button
-                  className="bg-black text-white border rounded-md w-[50px] h-[50px] flex items-center justify-center text-[16px]"
-                >
-                  {product.sizes}
-                </button>
-              ) : (
-                sizes.map((size) => (
+          {product.sizes && product.sizes.length > 0 && (
+            <div className="mb-6">
+              <div className="text-[16px] font-medium mb-4">Размер:</div>
+              <div className="flex flex-wrap gap-4">
+                {product.sizes.map((s) => (
                   <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`border rounded-md w-[50px] h-[50px] flex items-center justify-center text-[16px] ${
-                      selectedSize === size
-                        ? "bg-black text-white"
-                        : "bg-[#F9F9F9] border-gray-300"
+                    key={s.id}
+                    onClick={() => setSelectedSize(s.size)}
+                    className={`border rounded-md px-3 min-w-[50px] h-[50px] flex items-center justify-center text-[16px] transition-all ${
+                      selectedSize === s.size
+                        ? "bg-black text-white border-black"
+                        : "bg-white border-gray-300 hover:border-black"
                     }`}
                   >
-                    {size}
+                    {s.size}
                   </button>
-                ))
-              )}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {product.colors && product.colors.length > 0 && (
+            <div className="mb-6">
+              <div className="text-[16px] font-medium mb-4">Цвет:</div>
+              <div className="flex flex-wrap gap-4">
+                {product.colors.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => setSelectedColor(c.name)}
+                    className={`border rounded-md px-3 min-w-[50px] h-[50px] flex items-center justify-center text-[16px] transition-all ${
+                      selectedColor === c.name
+                        ? "bg-black text-white border-black"
+                        : "bg-white border-gray-300 hover:border-black"
+                    }`}
+                  >
+                    {c.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="text-[35px] font-bold mb-1">{product.price} сом</div>
 
