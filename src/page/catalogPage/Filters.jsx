@@ -1,6 +1,6 @@
-import { Popover, Transition, Checkbox } from '@headlessui/react'
+import { Popover, PopoverButton, PopoverPanel, Transition, Checkbox } from '@headlessui/react'
 import { Fragment, useState } from 'react'
-import { ChevronDownIcon, Squares2X2Icon, ListBulletIcon, CheckIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, CheckIcon } from '@heroicons/react/20/solid'
 
 const categoriesList = [
   "Трубопроводные системы",
@@ -11,8 +11,11 @@ const categoriesList = [
   "Монтаж и материалы"
 ]
 
-export default function CatalogFilters() {
+
+export default function Filters({ onFilter }) {
   const [selectedCategories, setSelectedCategories] = useState([])
+  const [priceFrom, setPriceFrom] = useState('')
+  const [priceTo, setPriceTo] = useState('')
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
@@ -22,15 +25,29 @@ export default function CatalogFilters() {
     )
   }
 
+  
+  const handleApply = () => {
+    const filterData = {
+      categories: selectedCategories,
+      min_price: priceFrom,
+      max_price: priceTo,
+    }
+    
+    
+    if (onFilter) {
+      onFilter(filterData)
+    }
+  }
+
   return (
     <div className='ml-0 md:ml-30 xl:ml-80'>
       <Popover className="relative">
-        {({ open }) => (
+        {({ open, close }) => ( 
           <>
-            <Popover.Button className="group inline-flex items-center rounded-lg bg-[#121212] px-10 md:px-28 py-2 text-base font-medium text-white hover:bg-opacity-90 focus:outline-none">
+            <PopoverButton className="group inline-flex items-center rounded-lg bg-[#121212] px-10 md:px-28 py-2 text-base font-medium text-white hover:bg-opacity-90 focus:outline-none">
               <span>Фильтры</span>
               <ChevronDownIcon className={`ml-2 h-5 w-5 transition ${open ? 'rotate-180' : ''}`} />
-            </Popover.Button>
+            </PopoverButton>
 
             <Transition
               as={Fragment}
@@ -41,8 +58,10 @@ export default function CatalogFilters() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute left-0 z-10 mt-3 w-[320px]">
+              <PopoverPanel className="absolute left-0 z-10 mt-3 w-[320px]">
                 <div className="overflow-hidden rounded-lg bg-[#121212] p-6 text-white shadow-xl">
+                  
+                  {/* Категории */}
                   <div className="mb-6">
                     <h3 className="mb-4 text-sm font-semibold text-white">Категории</h3>
                     <div className="space-y-4">
@@ -51,7 +70,7 @@ export default function CatalogFilters() {
                           <Checkbox
                             checked={selectedCategories.includes(category)}
                             onChange={() => toggleCategory(category)}
-                            className="group block size-5 rounded border border-gray-600 bg-transparent data-[checked]:bg-red-700 data-[checked]:border-red-700 focus:outline-none"
+                            className="group block size-5 rounded border border-gray-600 bg-transparent data-[checked]:bg-red-700 data-[checked]:border-red-700 focus:outline-none cursor-pointer"
                           >
                             <CheckIcon className="hidden size-4 stroke-white group-data-[checked]:block" />
                           </Checkbox>
@@ -71,26 +90,36 @@ export default function CatalogFilters() {
                     <div className="flex gap-2">
                       <input 
                         type="number" 
+                        value={priceFrom}
+                        onChange={(e) => setPriceFrom(e.target.value)}
                         placeholder="От" 
                         className="w-full rounded border border-gray-700 bg-transparent p-2 text-sm placeholder-gray-500 focus:border-red-600 focus:outline-none"
                       />
                       <input 
                         type="number" 
+                        value={priceTo}
+                        onChange={(e) => setPriceTo(e.target.value)}
                         placeholder="До" 
                         className="w-full rounded border border-gray-700 bg-transparent p-2 text-sm placeholder-gray-500 focus:border-red-600 focus:outline-none"
                       />
                     </div>
                   </div>
 
-                  <button className="w-full rounded-lg bg-[#8b0000] py-3 text-[15px] transition hover:bg-red-700">
+                  <button 
+                    onClick={() => {
+                      handleApply();
+                      close(); 
+                    }}
+                    className="w-full rounded-lg bg-[#8b0000] py-3 text-[15px] transition hover:bg-red-700 active:scale-95"
+                  >
                     Применить фильтры
                   </button>
                 </div>
-              </Popover.Panel>
+              </PopoverPanel>
             </Transition>
           </>
         )}
       </Popover>
     </div>
   )
-} 
+}
