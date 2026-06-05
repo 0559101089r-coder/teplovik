@@ -27,3 +27,13 @@ export const useRemoveFromCart = () => {
     },
   });
 };
+
+export const useClearCart = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => api.clearCart(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    },
+  });
+};

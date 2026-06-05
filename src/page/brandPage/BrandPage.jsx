@@ -59,7 +59,7 @@ export default function BrandPage() {
           {brands?.results?.map((brand) => (
             <Link
               key={brand.id}
-              to={`/brand/${brand.id}`}
+              to={`/catalog?breand=${brand.id}`}
               className="flex items-center justify-center w-[160px] h-[90px]"
             >
               <img

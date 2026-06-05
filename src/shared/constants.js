@@ -31,12 +31,12 @@ export const getBaseAboutById = async (id) => {
 };
 
 export const getBrands = async (params = {}) => {
-  const response = await requester.get('/brands/', { params });
+  const response = await requester.get('/breand/', { params });
   return response.data;
 };
 
 export const getBrandById = async (id) => {
-  const response = await requester.get(`/brands/${id}/`);
+  const response = await requester.get(`/breand/${id}/`);
   return response.data;
 };
 
@@ -55,13 +55,23 @@ export const removeFromCart = async (productId) => {
   return response.data;
 };
 
+export const clearCart = async () => {
+  const response = await requester.delete('/cart/clear/');
+  return response.data;
+};
+
 export const getProducts = async (params = {}) => {
-  const response = await requester.get('/catalog/', { params });
+  const response = await requester.get('/catalog/products/', { params });
   return response.data;
 };
 
 export const getProductById = async (id) => {
   const response = await requester.get(`/catalog/${id}/`);
+  return response.data;
+};
+
+export const getCategories = async (params = {}) => {
+  const response = await requester.get('/catalog/', { params });
   return response.data;
 };
 

@@ -1,48 +1,48 @@
 import { Popover, PopoverButton, PopoverPanel, Transition, Checkbox } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { ChevronDownIcon, CheckIcon } from '@heroicons/react/20/solid'
+import { useCategories } from './module/catalog'
+import { useBrands } from '../brandPage/module/brand'
 
-const categoriesList = [
-  "Трубопроводные системы",
-  "Арматура и соединения",
-  "Отопление",
-  "Водоснабжение",
-  "Автоматика и контроль",
-  "Монтаж и материалы"
-]
+const getList = (data) => data?.results || data || []
 
+export default function Filters({ initialFilters = {}, onFilter }) {
+  const { data: categoriesData } = useCategories()
+  const { data: brandsData } = useBrands()
 
-export default function Filters({ onFilter }) {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [priceFrom, setPriceFrom] = useState('')
   const [priceTo, setPriceTo] = useState('')
+  const [selectedBrand, setSelectedBrand] = useState(initialFilters.breand || '')
 
-  const toggleCategory = (category) => {
+  const categories = getList(categoriesData)
+  const brands = getList(brandsData)
+
+  useEffect(() => {
+    setSelectedBrand(initialFilters.breand || '')
+  }, [initialFilters.breand])
+
+  const toggleCategory = (categoryId) => {
     setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId]
     )
   }
 
-  
   const handleApply = () => {
-    const filterData = {
-      categories: selectedCategories,
+    onFilter?.({
+      category: selectedCategories.join(','),
       min_price: priceFrom,
       max_price: priceTo,
-    }
-    
-    
-    if (onFilter) {
-      onFilter(filterData)
-    }
+      breand: selectedBrand,
+    })
   }
 
   return (
     <div className='ml-0 md:ml-30 xl:ml-80'>
       <Popover className="relative">
-        {({ open, close }) => ( 
+        {({ open, close }) => (
           <>
             <PopoverButton className="group inline-flex items-center rounded-lg bg-[#121212] px-10 md:px-28 py-2 text-base font-medium text-white hover:bg-opacity-90 focus:outline-none">
               <span>Фильтры</span>
@@ -60,55 +60,73 @@ export default function Filters({ onFilter }) {
             >
               <PopoverPanel className="absolute left-0 z-10 mt-3 w-[320px]">
                 <div className="overflow-hidden rounded-lg bg-[#121212] p-6 text-white shadow-xl">
-                  
-                  {/* Категории */}
                   <div className="mb-6">
                     <h3 className="mb-4 text-sm font-semibold text-white">Категории</h3>
                     <div className="space-y-4">
-                      {categoriesList.map((category) => (
-                        <div key={category} className="flex items-center gap-3">
-                          <Checkbox
-                            checked={selectedCategories.includes(category)}
-                            onChange={() => toggleCategory(category)}
-                            className="group block size-5 rounded border border-gray-600 bg-transparent data-[checked]:bg-red-700 data-[checked]:border-red-700 focus:outline-none cursor-pointer"
-                          >
-                            <CheckIcon className="hidden size-4 stroke-white group-data-[checked]:block" />
-                          </Checkbox>
-                          <span 
-                            className="text-sm cursor-pointer select-none"
-                            onClick={() => toggleCategory(category)}
-                          >
-                            {category}
-                          </span>
-                        </div>
-                      ))}
+                      {categories.map((category) => {
+                        const categoryId = String(category.id)
+
+                        return (
+                          <div key={category.id} className="flex items-center gap-3">
+                            <Checkbox
+                              checked={selectedCategories.includes(categoryId)}
+                              onChange={() => toggleCategory(categoryId)}
+                              className="group block size-5 rounded border border-gray-600 bg-transparent data-[checked]:bg-red-700 data-[checked]:border-red-700 focus:outline-none cursor-pointer"
+                            >
+                              <CheckIcon className="hidden size-4 stroke-white group-data-[checked]:block" />
+                            </Checkbox>
+                            <span
+                              className="text-sm cursor-pointer select-none"
+                              onClick={() => toggleCategory(categoryId)}
+                            >
+                              {category.name}
+                            </span>
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
 
                   <div className="mb-6">
                     <h3 className="mb-2 text-sm font-semibold text-white">Цена</h3>
                     <div className="flex gap-2">
-                      <input 
-                        type="number" 
+                      <input
+                        type="number"
                         value={priceFrom}
                         onChange={(e) => setPriceFrom(e.target.value)}
-                        placeholder="От" 
+                        placeholder="От"
                         className="w-full rounded border border-gray-700 bg-transparent p-2 text-sm placeholder-gray-500 focus:border-red-600 focus:outline-none"
                       />
-                      <input 
-                        type="number" 
+                      <input
+                        type="number"
                         value={priceTo}
                         onChange={(e) => setPriceTo(e.target.value)}
-                        placeholder="До" 
+                        placeholder="До"
                         className="w-full rounded border border-gray-700 bg-transparent p-2 text-sm placeholder-gray-500 focus:border-red-600 focus:outline-none"
                       />
                     </div>
                   </div>
 
-                  <button 
+                  <div className="mb-6">
+                    <h3 className="mb-2 text-sm font-semibold text-white">Бренд</h3>
+                    <select
+                      value={selectedBrand}
+                      onChange={(e) => setSelectedBrand(e.target.value)}
+                      className="w-full rounded border border-gray-700 bg-[#121212] p-2 text-sm text-white focus:border-red-600 focus:outline-none"
+                    >
+                      <option value="">Все бренды</option>
+                      {brands.map((brand) => (
+                        <option key={brand.id} value={brand.id}>
+                          {brand.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <button
                     onClick={() => {
-                      handleApply();
-                      close(); 
+                      handleApply()
+                      close()
                     }}
                     className="w-full rounded-lg bg-[#8b0000] py-3 text-[15px] transition hover:bg-red-700 active:scale-95"
                   >

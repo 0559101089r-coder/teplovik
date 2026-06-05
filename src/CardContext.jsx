@@ -75,11 +75,13 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const clearCart = () => {
-    // Backend might not have a clear cart endpoint, so we might need to remove each item
-    // or just clear local state if that's acceptable.
-    // For now, let's keep it simple.
-    setCartItems([]);
+  const clearCart = async () => {
+    try {
+      await api.clearCart();
+      setCartItems([]);
+    } catch (error) {
+      toast.error("РћС€РёР±РєР° РїСЂРё РѕС‡РёСЃС‚РєРµ РєРѕСЂР·РёРЅС‹");
+    }
   };
 
   return (

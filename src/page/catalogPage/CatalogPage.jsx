@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CatalogCard from "./CatalogCard";
 import cartIcon from "./catalogPics/cart.svg";
 import { CartContext } from "../../CardContext";
@@ -11,18 +11,32 @@ import { Spin, Result } from "antd";
 
 export default function CatalogPage() {
   const [style, setStyle] = useState("card");
+  const [searchParams] = useSearchParams();
+  const breandId = searchParams.get("breand") || searchParams.get("brand") || "";
 
  
   const [filters, setFilters] = useState({
-    categories: [],
+    category: "",
     min_price: "",
     max_price: "",
+    breand: breandId,
   });
 
   const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
 
-  const { data: productsData, isLoading, isError } = useProducts();
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      breand: breandId,
+    }));
+  }, [breandId]);
+
+  const productParams = Object.fromEntries(
+    Object.entries(filters).filter(([, value]) => value !== "" && value !== null && value !== undefined)
+  );
+
+  const { data: productsData, isLoading, isError } = useProducts(productParams);
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -54,30 +68,6 @@ export default function CatalogPage() {
 
   const products = productsData?.results || [];
 
- 
-  const filteredProducts = products.filter((product) => {
-    const category =
-      product.category?.name || product.category;
-
-    const matchCategory =
-      filters.categories.length === 0 ||
-      filters.categories.includes(category);
-
-    const matchMinPrice =
-      !filters.min_price ||
-      Number(product.price) >= Number(filters.min_price);
-
-    const matchMaxPrice =
-      !filters.max_price ||
-      Number(product.price) <= Number(filters.max_price);
-
-    return (
-      matchCategory &&
-      matchMinPrice &&
-      matchMaxPrice
-    );
-  });
-
   return (
     <div className="container mx-auto px-6 py-6 md:py-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 md:mb-10">
@@ -96,7 +86,7 @@ export default function CatalogPage() {
 
          
           <div>
-            <Filter onFilter={setFilters} />
+            <Filter initialFilters={filters} onFilter={setFilters} />
           </div>
 
           
@@ -147,7 +137,7 @@ export default function CatalogPage() {
       {style === "card" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          {filteredProducts.map((product) => (
+          {products.map((product) => (
             <CatalogCard
               key={product.id}
               product={product}
@@ -161,7 +151,7 @@ export default function CatalogPage() {
       {style === "list" && (
         <div className="gap-8">
 
-          {filteredProducts.map((product) => (
+          {products.map((product) => (
             <div
               key={product.id}
               className="grid grid-cols-1 md:grid-cols-2 w-full bg-white rounded-xl shadow-sm p-4 flex items-center gap-6 hover:shadow-md transition"
