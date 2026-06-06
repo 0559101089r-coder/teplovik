@@ -12,7 +12,8 @@ import { Spin, Result } from "antd";
 export default function CatalogPage() {
   const [style, setStyle] = useState("card");
   const [searchParams] = useSearchParams();
-  const breandId = searchParams.get("breand") || searchParams.get("brand") || "";
+  const brandId = searchParams.get("brand") || "";
+  const breandId = searchParams.get("breand") || "";
 
  
   const [filters, setFilters] = useState({
@@ -20,6 +21,7 @@ export default function CatalogPage() {
     min_price: "",
     max_price: "",
     breand: breandId,
+    brand: brandId,
   });
 
   const { addToCart } = useContext(CartContext);
@@ -29,14 +31,23 @@ export default function CatalogPage() {
     setFilters((prev) => ({
       ...prev,
       breand: breandId,
+      brand: brandId,
     }));
-  }, [breandId]);
+  }, [brandId, breandId]);
 
   const productParams = Object.fromEntries(
     Object.entries(filters).filter(([, value]) => value !== "" && value !== null && value !== undefined)
   );
 
   const { data: productsData, isLoading, isError } = useProducts(productParams);
+
+  const handleFilterChange = (nextFilters) => {
+    setFilters({
+      ...nextFilters,
+      breand: nextFilters.breand || breandId,
+      brand: brandId,
+    });
+  };
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -86,7 +97,7 @@ export default function CatalogPage() {
 
          
           <div>
-            <Filter initialFilters={filters} onFilter={setFilters} />
+            <Filter initialFilters={filters} onFilter={handleFilterChange} />
           </div>
 
           
