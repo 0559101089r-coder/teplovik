@@ -7,7 +7,7 @@ import CatalogCard from "../catalogPage/CatalogCard";
 export default function BrandDetailPage() {
   const { id } = useParams();
   const { data: brand, isLoading: isBrandLoading, isError: isBrandError } = useBrandById(id);
-  const { data: productsData, isLoading: isProductsLoading, isError: isProductsError } = useProducts({ breand: id });
+  const { data: productsData, isLoading: isProductsLoading, isError: isProductsError } = useProducts({ brand: id });
 
   if (isBrandLoading || isProductsLoading) {
     return (

@@ -13,14 +13,12 @@ export default function CatalogPage() {
   const [style, setStyle] = useState("card");
   const [searchParams] = useSearchParams();
   const brandId = searchParams.get("brand") || "";
-  const breandId = searchParams.get("breand") || "";
 
  
   const [filters, setFilters] = useState({
     category: "",
     min_price: "",
     max_price: "",
-    breand: breandId,
     brand: brandId,
   });
 
@@ -30,10 +28,9 @@ export default function CatalogPage() {
   useEffect(() => {
     setFilters((prev) => ({
       ...prev,
-      breand: breandId,
       brand: brandId,
     }));
-  }, [brandId, breandId]);
+  }, [brandId]);
 
   const productParams = Object.fromEntries(
     Object.entries(filters).filter(([, value]) => value !== "" && value !== null && value !== undefined)
@@ -44,8 +41,7 @@ export default function CatalogPage() {
   const handleFilterChange = (nextFilters) => {
     setFilters({
       ...nextFilters,
-      breand: nextFilters.breand || breandId,
-      brand: brandId,
+      brand: nextFilters.brand || brandId,
     });
   };
 

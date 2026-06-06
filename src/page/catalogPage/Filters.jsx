@@ -13,14 +13,14 @@ export default function Filters({ initialFilters = {}, onFilter }) {
   const [selectedCategories, setSelectedCategories] = useState([])
   const [priceFrom, setPriceFrom] = useState('')
   const [priceTo, setPriceTo] = useState('')
-  const [selectedBrand, setSelectedBrand] = useState(initialFilters.breand || '')
+  const [selectedBrand, setSelectedBrand] = useState(initialFilters.brand || '')
 
   const categories = getList(categoriesData)
   const brands = getList(brandsData)
 
   useEffect(() => {
-    setSelectedBrand(initialFilters.breand || '')
-  }, [initialFilters.breand])
+    setSelectedBrand(initialFilters.brand || '')
+  }, [initialFilters.brand])
 
   const toggleCategory = (categoryId) => {
     setSelectedCategories((prev) =>
@@ -35,7 +35,7 @@ export default function Filters({ initialFilters = {}, onFilter }) {
       category: selectedCategories.join(','),
       min_price: priceFrom,
       max_price: priceTo,
-      breand: selectedBrand,
+      brand: selectedBrand,
     })
   }
 
