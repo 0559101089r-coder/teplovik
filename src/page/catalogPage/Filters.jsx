@@ -15,9 +15,10 @@ const defaultCategories = [
 ]
 
 const getCategoryOptions = (data) => {
-  const categories = data?.category_options || data?.categories || data?.results || []
+  const rawCategories = data?.category_options || data?.categories || []
+  const categories = Array.isArray(rawCategories) ? rawCategories : []
 
-  if (!Array.isArray(categories) || categories.length === 0) {
+  if (categories.length === 0) {
     return defaultCategories
   }
 

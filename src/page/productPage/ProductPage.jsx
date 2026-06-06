@@ -1,13 +1,16 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Breadcrumb, Spin, Result } from "antd";
-import manufacturerLogo from "./pictures/brand.svg";
 import addToCartBtn from "./pictures/cart.svg";
 import pdfIcon from "./pictures/pdfIcon.svg";
 import Counter from "../../counter/Counter";
 import useCounterStore from "../../counter/store";
 import { CartContext } from "../../CardContext";
 import { useProductById } from "./module/product";
+import { useBrands } from "../brandPage/module/brand";
+
+const getList = (data) => data?.results || data || [];
+const normalizeBrandName = (name = "") => String(name).trim().toLowerCase();
 
 export default function ProductPage() {
   const navigate = useNavigate();
@@ -15,6 +18,7 @@ export default function ProductPage() {
   const { addToCart } = useContext(CartContext);
 
   const { data: product, isLoading, isError } = useProductById(id);
+  const { data: brandsData } = useBrands();
 
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
@@ -32,6 +36,12 @@ export default function ProductPage() {
 
   const { getCount } = useCounterStore();
   const count = getCount(id);
+  const productBrandName = typeof product?.brand === "string"
+    ? product.brand
+    : product?.brand?.name;
+  const productBrand = getList(brandsData).find(
+    (brand) => normalizeBrandName(brand.name) === normalizeBrandName(productBrandName)
+  );
 
   if (isLoading) {
     return (
@@ -96,7 +106,17 @@ export default function ProductPage() {
 
           <div className="mb-6 flex items-center gap-3">
             <div className="text-[13px] text-[#6B7280]">Производитель:</div>
-            <img src={manufacturerLogo} className="h-8" />
+            {productBrand?.image ? (
+              <img
+                src={productBrand.image}
+                className="h-8 max-w-[140px] object-contain"
+                alt={productBrand.name}
+              />
+            ) : (
+              <span className="text-[15px] font-semibold text-[#111827]">
+                {productBrandName || "Не указан"}
+              </span>
+            )}
           </div>
 
           {product.sizes && product.sizes.length > 0 && (
