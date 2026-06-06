@@ -27,25 +27,25 @@ export default function Production() {
       </h2>
 
       <div className="mx-5">
-        <Swiper slidesPerView={4} spaceBetween={12} grabCursor={true} breakpoints={{
-          320: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 4 },
-        }}>
+        <Swiper
+          slidesPerView="auto"
+          spaceBetween={6}
+          grabCursor={true}
+        >
           {slides.map((slide) => (
             <SwiperSlide
               key={slide.id}
-              className="rounded-[8px] overflow-hidden flex flex-col"
+              className="!w-[clamp(155px,12.4vw,275px)] rounded-[8px] overflow-hidden flex flex-col"
             >
-              <div className="h-[326px] rounded-[8px] bg-white flex items-center justify-center">
+              <div className="aspect-square rounded-[8px] bg-white flex items-center justify-center">
                 <img
                   src={slide.image}
                   alt={slide.description}
-                  className="w-[62%] h-[62%] object-contain"
+                  className="w-[58%] h-[58%] object-contain"
                 />
               </div>
 
-              <p className="text-[#DC2626] font-roboto font-medium text-left mt-6 px-0 text-[16px] leading-[20px] min-h-[40px]">
+              <p className="text-[#DC2626] font-roboto font-medium text-left mt-4 px-0 text-[clamp(10px,0.78vw,16px)] leading-[1.25] min-h-[2.5em]">
                 {slide.description}
               </p>
 
