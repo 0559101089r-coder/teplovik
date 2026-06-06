@@ -26,7 +26,7 @@ export default function Contacts() {
   const handleCancel = () => setSelectedPhone(null);
 
   return (
-    <div className="bg-[#F9F9F9]  py-10">
+    <div className="bg-[#F9F9F9] py-6 md:py-10">
 
     <div className="bg-[#F9F9F9] py-6 md:py-10">
 
@@ -50,22 +50,22 @@ export default function Contacts() {
             {contacts[0].phones.map((p, i) => (
               <div
                 key={i}
-                className={`flex flex-row items-start justify-between gap-4 py-6 relative ${
+                className={`flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 py-6 relative ${
                   i !== contacts[0].phones.length - 1
                     ? "border-b border-[#F3F4F6]"
                     : ""
                 }`}
               >
-                <div className="flex gap-4">
+                <div className="flex gap-4 min-w-0">
                   <img src={call} alt="phone icon" className="w-5 h-5 mt-1" />
-                  <div>
+                  <div className="min-w-0">
                     <p
-                      className="text-[#FF0505] font-roboto font-bold text-lg md:text-xl cursor-pointer hover:underline"
+                      className="text-[#FF0505] font-roboto font-bold text-lg md:text-xl cursor-pointer hover:underline break-words"
                       onClick={() => handlePhoneClick(p.number)}
                     >
                       {p.number}
                     </p>
-                    <p className="text-[#555555] font-roboto font-normal text-sm mt-3">
+                    <p className="text-[#555555] font-roboto font-normal text-sm mt-3 break-words">
                       {p.address}
                     </p>
                   </div>

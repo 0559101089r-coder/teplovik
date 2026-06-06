@@ -35,8 +35,8 @@ export default function Products() {
   const products = novinkiData?.results || [];
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <div className="flex items-center justify-between mb-10">
+    <div className="container mx-auto py-8 md:py-10 px-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 md:mb-10">
         <div>
           <h1 className="text-3xl font-bold">Новинки</h1>
           <p className="text-gray-500">Современные инженерные системы отопления и водоснабжения</p>
@@ -78,9 +78,9 @@ export default function Products() {
           {products.map((p) => (
             <div
               key={p.id}
-              className="w-full bg-white rounded-xl shadow-sm p-4 flex items-center gap-6"
+              className="w-full bg-white rounded-xl shadow-sm p-4 flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6"
             >
-              <div className="w-28 h-28 flex items-center justify-center flex-shrink-0">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center flex-shrink-0">
                 <img
                   src={p.image}
                   alt={p.name}
@@ -88,18 +88,18 @@ export default function Products() {
                 />
               </div>
 
-              <div className="flex flex-col justify-center flex-1">
-                <p className="text-gray-700 font-semibold text-lg leading-tight">
+              <div className="flex flex-col justify-center flex-1 min-w-0">
+                <p className="text-gray-700 font-semibold text-base md:text-lg leading-tight break-words">
                   {p.name}
                 </p>
-                <p className="text-red-500 font-bold text-xl mt-1">
+                <p className="text-red-500 font-bold text-lg md:text-xl mt-1">
                   {p.price} сом
                 </p>
               </div>
 
               <button
                 onClick={() => addToCart(product_wrapper(p))}
-                className="ml-6 w-12 h-12 flex items-center justify-center rounded-xl"
+                className="w-12 h-12 flex items-center justify-center rounded-xl"
               >
                 <img src={AddToCartButton} alt="Добавить в корзину" className="w-[60px] h-[60px]" />
               </button>

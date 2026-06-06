@@ -86,17 +86,17 @@ export default function ProductPage() {
         />
       </div>
 
-      <div className="px-5 py-3 block md:flex gap-15">
+      <div className="px-4 sm:px-5 py-3 flex flex-col md:flex-row gap-6 lg:gap-12">
         <div className="w-full md:w-[42%]">
           <img
             src={product.image}
-            className="rounded-xl w-full"
+            className="rounded-xl w-full max-h-[420px] object-contain bg-white"
             alt={product.name}
           />
         </div>
 
-        <div className="w-full md:w-[40%]">
-          <h1 className="text-[32px] font-bold leading-tight mb-4">
+        <div className="w-full md:w-[52%] lg:w-[40%] min-w-0">
+          <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-bold leading-tight mb-4 break-words">
             {product.name}
           </h1>
 
@@ -104,7 +104,7 @@ export default function ProductPage() {
             Код: {product.id}
           </div>
 
-          <div className="mb-6 flex items-center gap-3">
+          <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
             <div className="text-[13px] text-[#6B7280]">Производитель:</div>
             {productBrand?.image ? (
               <img
@@ -173,21 +173,21 @@ export default function ProductPage() {
             </p>
           </div>
 
-          <div className="mb-6 flex items-center gap-4">
+          <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
             <div className="text-[15px] font-medium text-[#374151]">Количество:</div>
             <Counter productId={product.id} />
           </div>
 
           <img
             src={addToCartBtn}
-            className="w-[500px] cursor-pointer select-none hover:scale-110 transition-transform"
+            className="w-full max-w-[500px] cursor-pointer select-none hover:scale-110 transition-transform"
             onClick={handleAddToCart}
             alt="Добавить в корзину"
           />
         </div>
       </div>
 
-      <div className="max-w-[470px] px-5 mt-4">
+      <div className="max-w-[470px] px-4 sm:px-5 mt-4">
         <div className="bg-white border border-gray-300 rounded-xl overflow-hidden">
           <div className="flex items-center justify-between px-3 py-2">
             <span className="text-[16px] font-medium">Паспорт</span>

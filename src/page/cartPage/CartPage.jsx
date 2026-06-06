@@ -33,14 +33,14 @@ export default function CartPage() {
 
         <h1 className="text-[32px] font-semibold mb-8">Корзина</h1>
 
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-10 animate-fade-in">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 animate-fade-in">
 
-          <div className="col-span-8">
+          <div className="lg:col-span-8">
 
-            <div className="grid grid-cols-12 text-gray-500 text-sm mb-4 px-2">
+            <div className="hidden md:grid grid-cols-12 text-gray-500 text-sm mb-4 px-2">
               <div className="col-span-4 md:col-span-6">Товар</div>
               <div className="col-span-2">Цена</div>
-              <div className="col-span-4 md:ml-80col-span-2 text-center">Количество</div>
+              <div className="col-span-2 text-center">Количество</div>
               <div className="col-span-2 text-right">Сумма</div>
             </div>
 
@@ -48,12 +48,12 @@ export default function CartPage() {
               {cartItems.map(item => (
                 <div
                   key={item.id}
-                  className="grid grid-cols-12 items-center bg-white rounded-xl p-4"
+                  className="grid grid-cols-1 md:grid-cols-12 items-start md:items-center bg-white rounded-xl p-4 gap-4"
                 >
-                  <div className="col-span-6 flex items-center gap-4">
+                  <div className="md:col-span-6 flex items-center gap-4 min-w-0">
                     <img src={item.image} alt="" className="w-20 h-20 object-contain" />
-                    <div>
-                      <div className="font-semibold leading-tight mb-1">{item.title}</div>
+                    <div className="min-w-0">
+                      <div className="font-semibold leading-tight mb-1 break-words">{item.title}</div>
                       <div className="flex flex-col gap-0.5">
                         <div className="text-gray-400 text-xs">Код: {item.code || item.id}</div>
                         {item.selectedSize && (
@@ -66,18 +66,18 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <div className="col-span-2 font-medium">
+                  <div className="md:col-span-2 font-medium">
                     {Number(item.price).toLocaleString()} сом
                   </div>
 
-                  <div className="col-span-2 flex justify-center">
+                  <div className="md:col-span-2 flex md:justify-center">
                     <Counter 
                       productId={item.id} 
                       onChange={(delta) => updateQty(item.id, delta)} 
                     />
                   </div>
 
-                  <div className="col-span-2 flex items-center justify-end gap-4 font-medium">
+                  <div className="md:col-span-2 flex items-center md:justify-end gap-4 font-medium">
                     {(Number(item.price) * item.qty).toLocaleString()} сом
                     <img
                       src={closeIcon}
@@ -90,7 +90,7 @@ export default function CartPage() {
             </div>
 
             {cartItems.length > 0 ? (
-              <div className="flex items-center justify-between mt-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-8">
                 <a href="/" className="text-gray-500 hover:text-black flex items-center gap-2">
                   ← Продолжить покупки
                 </a>
@@ -110,8 +110,8 @@ export default function CartPage() {
             )}
           </div>
 
-          <div className="col-span-8 md:col-span-4">
-            <div className="border border-gray-300 rounded-xl p-6 sticky top-6 bg-white shadow-sm">
+          <div className="lg:col-span-4">
+            <div className="border border-gray-300 rounded-xl p-5 sm:p-6 lg:sticky lg:top-6 bg-white shadow-sm">
               <h3 className="text-xl font-semibold mb-6">Итого</h3>
 
               <div className="flex justify-between text-gray-500 mb-3">

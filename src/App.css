@@ -13,12 +13,26 @@
     font-family: 'Roboto';
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  img,
+  svg,
+  video,
+  iframe {
+    max-width: 100%;
   }
 }
 
 @layer components {
   .container {
     @apply mx-auto max-w-[1270px] px-4;
+  }
+}
+
+@media (max-width: 768px) {
+  .hover-lift:hover {
+    transform: none;
   }
 }
 

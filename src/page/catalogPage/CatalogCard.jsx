@@ -14,10 +14,10 @@ export default function CatalogCard({ product }) {
   };
 
   return (
-    <div className="bg-[#FFFFFF] rounded-2xl p-6 flex flex-col justify-between animate-fade-in hover-lift">
+    <div className="bg-[#FFFFFF] rounded-2xl p-4 sm:p-6 flex flex-col justify-between animate-fade-in hover-lift">
       <Link to={`/product/${product.id}`}>
-        <img src={product?.img ?? product?.image} className="w-full h-[170px] object-contain mb-8" alt={product.title} />
-        <h3 className="text-lg font-roboto font-normal mb-3">{product.title}</h3>
+        <img src={product?.img ?? product?.image} className="w-full h-[150px] sm:h-[170px] object-contain mb-5 sm:mb-8" alt={product.title} />
+        <h3 className="text-base sm:text-lg font-roboto font-normal mb-3 break-words">{product.title}</h3>
         <p className="text-[#FF0505] text-xl font-roboto font-bold mb-4">{product.price} сом</p>
       </Link>
 
@@ -26,7 +26,7 @@ export default function CatalogCard({ product }) {
       <img
         src={AddToCartButton}
         alt="Добавить в корзину"
-        className="mb-4 cursor-pointer select-none hover:scale-110 transition-transform"
+        className="mb-4 w-full max-w-[230px] cursor-pointer select-none hover:scale-110 transition-transform"
         onClick={handleAddToCart}
       />
 

@@ -72,11 +72,11 @@ export default function Filters({ initialFilters = {}, onFilter }) {
   }
 
   return (
-    <div className='ml-0 md:ml-30 xl:ml-80'>
+    <div className="w-full sm:w-auto">
       <Popover className="relative">
         {({ open, close }) => (
           <>
-            <PopoverButton className="group inline-flex items-center rounded-lg bg-[#121212] px-10 md:px-28 py-2 text-base font-medium text-white hover:bg-opacity-90 focus:outline-none">
+            <PopoverButton className="group inline-flex w-full sm:w-auto items-center justify-center rounded-lg bg-[#121212] px-8 sm:px-10 lg:px-16 py-2 text-base font-medium text-white hover:bg-opacity-90 focus:outline-none">
               <span>Фильтры</span>
               <ChevronDownIcon className={`ml-2 h-5 w-5 transition ${open ? 'rotate-180' : ''}`} />
             </PopoverButton>
@@ -90,8 +90,8 @@ export default function Filters({ initialFilters = {}, onFilter }) {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <PopoverPanel className="absolute left-0 z-10 mt-3 w-[320px]">
-                <div className="overflow-hidden rounded-lg bg-[#121212] p-6 text-white shadow-xl">
+              <PopoverPanel className="absolute left-0 right-0 sm:right-auto z-10 mt-3 w-full sm:w-[320px]">
+                <div className="max-h-[75vh] overflow-y-auto rounded-lg bg-[#121212] p-4 sm:p-6 text-white shadow-xl">
                   <div className="mb-6">
                     <h3 className="mb-4 text-sm font-semibold text-white">Категории</h3>
                     <div className="space-y-4">
@@ -108,7 +108,7 @@ export default function Filters({ initialFilters = {}, onFilter }) {
                               <CheckIcon className="hidden size-4 stroke-white group-data-[checked]:block" />
                             </Checkbox>
                             <span
-                              className="text-sm cursor-pointer select-none"
+                              className="text-sm cursor-pointer select-none break-words"
                               onClick={() => toggleCategory(categoryId)}
                             >
                               {category.name}

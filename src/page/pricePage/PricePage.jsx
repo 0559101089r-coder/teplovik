@@ -47,14 +47,14 @@ export default function PriceList() {
           {items.map((item, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl p-5 flex items-center justify-between shadow-sm border border-gray-100"
+              className="bg-white rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm border border-gray-100"
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 min-w-0">
                 <img src={pdfIcon} alt="pdf" className="w-10 h-10" />
 
-                <div>
-                  <h3 className="font-semibold text-[18px]">{item.title}</h3>
-                  <div className="flex gap-4 text-gray-500 text-[14px] mt-1">
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-base sm:text-[18px] break-words">{item.title}</h3>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-gray-500 text-[14px] mt-1">
                     <span>{item.size_mb} МБ</span>
                     <span>•</span>
                     <span>Обновлен {item.updated_at}</span>
@@ -62,7 +62,7 @@ export default function PriceList() {
                 </div>
               </div>
 
-              <a href={item.file} target="_blank" rel="noopener noreferrer">
+              <a href={item.file} target="_blank" rel="noopener noreferrer" className="self-start sm:self-center">
                 <img
                   src={downloadBtn}
                   alt="download"

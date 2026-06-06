@@ -6,6 +6,19 @@ import { Spin } from 'antd';
 
 import button from '../../../images/button.svg';
 
+const getInternalLink = (link) => {
+  if (!link) {
+    return '/catalog'
+  }
+
+  try {
+    const url = new URL(link)
+    return `${url.pathname}${url.search}${url.hash}`
+  } catch {
+    return link
+  }
+}
+
 export default function Production() {
   const navigate = useNavigate();
   const { data: baseProducts, isLoading } = useBaseProducts();
@@ -21,12 +34,12 @@ export default function Production() {
   const slides = baseProducts?.results || [];
 
   return (
-    <div className="my-8">
-      <h2 className="font-roboto font-medium text-4xl leading-[130px] mt-4 ml-5">
+    <div className="my-8 overflow-hidden">
+      <h2 className="font-roboto font-medium text-2xl sm:text-3xl md:text-4xl leading-tight md:leading-[130px] mt-4 mx-4 sm:ml-5">
         ПРОДУКЦИЯ
       </h2>
 
-      <div className="mx-5">
+      <div className="mx-4 sm:mx-5">
         <Swiper
           slidesPerView="auto"
           spaceBetween={15}
@@ -35,9 +48,9 @@ export default function Production() {
           {slides.map((slide) => (
             <SwiperSlide
               key={slide.id}
-              className="!w-[335px] rounded-[8px] overflow-hidden flex flex-col"
+              className="!w-[min(335px,calc(100vw-32px))] rounded-[8px] overflow-hidden flex flex-col"
             >
-              <div className="h-[390px] rounded-[8px] bg-white flex items-center justify-center">
+              <div className="h-[300px] sm:h-[390px] rounded-[8px] bg-white flex items-center justify-center">
                 <img
                   src={slide.image}
                   alt={slide.description}
@@ -45,7 +58,7 @@ export default function Production() {
                 />
               </div>
 
-              <p className="text-[#DC2626] font-roboto font-medium text-left mt-[30px] px-0 text-[20px] leading-[24px] min-h-[48px]">
+              <p className="text-[#DC2626] font-roboto font-medium text-left mt-[22px] sm:mt-[30px] px-0 text-[18px] sm:text-[20px] leading-[24px] min-h-[48px] break-words">
                 {slide.description}
               </p>
 
@@ -54,7 +67,7 @@ export default function Production() {
                   src={button}
                   className="w-[99px] h-[33px] cursor-pointer hover:scale-110 transition-transform"
                   style={{ borderRadius: 0 }}
-                  onClick={() => navigate(`/product/${slide.id}`)}
+                  onClick={() => navigate(getInternalLink(slide.link))}
                   alt="Подробнее"
                 />
               </div>

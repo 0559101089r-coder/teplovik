@@ -76,8 +76,8 @@ export default function CatalogPage() {
   const products = productsData?.results || [];
 
   return (
-    <div className="container mx-auto px-6 py-6 md:py-10">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 md:mb-10">
+    <div className="container mx-auto px-4 sm:px-6 py-6 md:py-10">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 md:mb-10">
 
         <div>
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
@@ -89,15 +89,15 @@ export default function CatalogPage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4 w-full lg:w-auto">
 
          
-          <div>
+          <div className="w-full sm:w-auto">
             <Filter initialFilters={filters} onFilter={handleFilterChange} />
           </div>
 
           
-            <div className="inline-flex rounded-xl overflow-hidden border border-gray-500">
+            <div className="inline-flex self-start rounded-xl overflow-hidden border border-gray-500">
 
             <button
               onClick={() => setStyle("card")}
@@ -161,11 +161,11 @@ export default function CatalogPage() {
           {products.map((product) => (
             <div
               key={product.id}
-              className="grid grid-cols-1 md:grid-cols-2 w-full bg-white rounded-xl shadow-sm p-4 flex items-center gap-6 hover:shadow-md transition"
+              className="grid grid-cols-1 md:grid-cols-[1fr_auto] w-full bg-white rounded-xl shadow-sm p-4 items-center gap-4 md:gap-6 hover:shadow-md transition mb-4"
             >
 
-              <div>
-                <div className="w-[90px] h-[90px] flex items-center justify-center">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 min-w-0">
+                <div className="w-[90px] h-[90px] flex-shrink-0 flex items-center justify-center">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -173,22 +173,22 @@ export default function CatalogPage() {
                   />
                 </div>
 
-                <div className="flex flex-col flex-1">
-                  <p className="text-gray-700 font-semibold text-lg leading-tight">
+                <div className="flex flex-col flex-1 min-w-0">
+                  <p className="text-gray-700 font-semibold text-base md:text-lg leading-tight break-words">
                     {product.name}
                   </p>
 
-                  <p className="text-red-500 font-bold text-xl mt-1">
+                  <p className="text-red-500 font-bold text-lg md:text-xl mt-1">
                     {product.price} сом
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
 
                 <button
                   onClick={() => handleAddToCart(product)}
-                  className="ml-6 w-12 h-12 flex items-center justify-center rounded-xl"
+                  className="w-12 h-12 flex items-center justify-center rounded-xl"
                 >
                   <img
                     src={cartIcon}

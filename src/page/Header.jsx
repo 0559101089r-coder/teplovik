@@ -40,12 +40,12 @@ export default function Header() {
   }
   
   return (
-    <header className="relative w-full h-[88px] px-4 md:px-6 bg-[#FAFAFA] flex items-center justify-between z-50">
-      <Link to="/" className="w-[180px] md:w-[228px] h-[50px] md:h-[60px] flex justify-start items-center">
+    <header className="relative w-full h-[72px] lg:h-[88px] px-4 md:px-6 bg-[#FAFAFA] flex items-center justify-between gap-4 z-50">
+      <Link to="/" className="w-[150px] sm:w-[180px] lg:w-[228px] h-[44px] lg:h-[60px] flex justify-start items-center flex-shrink-0">
         <img src={logo} alt="Логотип" className="h-full w-auto cursor-pointer hover:opacity-80 transition" />
       </Link>
 
-      <nav className="hidden md:flex gap-[35px] h-[16px] text-[#121212] font-roboto font-medium text-sm mx-auto">
+      <nav className="hidden lg:flex gap-[35px] h-[16px] text-[#121212] font-roboto font-medium text-sm mx-auto">
         <Link to="/novinki" className="hover:text-red-600 transition-colors uppercase">НОВИНКИ</Link>
         <Link to="/price" className="hover:text-red-600 transition-colors uppercase">ПРАЙС</Link>
         <Link to="/contacts" className="hover:text-red-600 transition-colors uppercase">КОНТАКТЫ</Link>
@@ -53,7 +53,7 @@ export default function Header() {
         <Link to="/about" className="hover:text-red-600 transition-colors uppercase">О НАС</Link>
       </nav>
 
-      <div className="flex items-center space-x-6 md:space-x-15">
+      <div className="flex items-center gap-4 md:gap-6 lg:gap-12">
         <div className="flex items-center">
           <button
             aria-label="Поиск" 
@@ -70,7 +70,7 @@ export default function Header() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchKeyDown}
-              className="absolute top-[88px] left-0 right-0 md:relative md:top-auto md:left-auto md:right-auto md:ml-4 border border-gray-300 rounded-md px-4 py-2 bg-white md:w-48 focus:border-red-500 shadow-lg md:shadow-none outline-none z-50"
+              className="absolute top-[72px] lg:top-[88px] left-4 right-4 lg:relative lg:left-auto lg:right-auto lg:top-auto lg:ml-4 border border-gray-300 rounded-md px-4 py-2 bg-white lg:w-48 focus:border-red-500 shadow-lg lg:shadow-none outline-none z-50"
               autoFocus
             />
           )}
@@ -90,7 +90,7 @@ export default function Header() {
         </button>
 
         <button 
-          className='md:hidden block w-8 h-8 flex-shrink-0'
+          className='lg:hidden block w-8 h-8 flex-shrink-0'
           onClick={toggleMenu}
           aria-label="Меню"
         >
@@ -103,7 +103,7 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-white z-[60] transition-all duration-300 ease-in-out transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
+      <div className={`fixed inset-0 bg-white z-[60] transition-all duration-300 ease-in-out transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} lg:hidden`}>
         <div className="flex flex-col h-full p-6">
           <div className="flex justify-between items-center mb-12">
             <Link to="/" onClick={handleNavLinkClick} className="w-[150px] h-[40px]">
