@@ -31,12 +31,12 @@ export const getBaseAboutById = async (id) => {
 };
 
 export const getBrands = async (params = {}) => {
-  const response = await requester.get('/breand/', { params });
+  const response = await requester.get('/brands/', { params });
   return response.data;
 };
 
 export const getBrandById = async (id) => {
-  const response = await requester.get(`/breand/${id}/`);
+  const response = await requester.get(`/brands/${id}/`);
   return response.data;
 };
 
