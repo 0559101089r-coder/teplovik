@@ -71,7 +71,7 @@ export const getProductById = async (id) => {
 };
 
 export const getCategories = async (params = {}) => {
-  const response = await requester.get('/catalog/', { params });
+  const response = await requester.get('/catalog/filters/', { params });
   return response.data;
 };
 

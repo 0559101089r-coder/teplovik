@@ -5,6 +5,37 @@ import { useCategories } from './module/catalog'
 import { useBrands } from '../brandPage/module/brand'
 
 const getList = (data) => data?.results || data || []
+const defaultCategories = [
+  { id: 'Трубопроводные системы', name: 'Трубопроводные системы' },
+  { id: 'Отопление', name: 'Отопление' },
+  { id: 'Арматура и соединения', name: 'Арматура и соединения' },
+  { id: 'Водоснабжение', name: 'Водоснабжение' },
+  { id: 'Автоматика и контроль', name: 'Автоматика и контроль' },
+  { id: 'Монтаж и материалы', name: 'Монтаж и материалы' },
+]
+
+const getCategoryOptions = (data) => {
+  const categories = data?.category_options || data?.categories || data?.results || []
+
+  if (!Array.isArray(categories) || categories.length === 0) {
+    return defaultCategories
+  }
+
+  return categories.map((category) => {
+    if (typeof category === 'string') {
+      return {
+        id: category,
+        name: category,
+      }
+    }
+
+    return {
+      ...category,
+      id: category.id ?? category.name,
+      name: category.name ?? category.title,
+    }
+  }).filter((category) => category.id && category.name)
+}
 
 export default function Filters({ initialFilters = {}, onFilter }) {
   const { data: categoriesData } = useCategories()
@@ -15,7 +46,7 @@ export default function Filters({ initialFilters = {}, onFilter }) {
   const [priceTo, setPriceTo] = useState('')
   const [selectedBrand, setSelectedBrand] = useState(initialFilters.brand || '')
 
-  const categories = getList(categoriesData)
+  const categories = getCategoryOptions(categoriesData)
   const brands = getList(brandsData)
 
   useEffect(() => {
@@ -67,7 +98,7 @@ export default function Filters({ initialFilters = {}, onFilter }) {
                         const categoryId = String(category.id)
 
                         return (
-                          <div key={category.id} className="flex items-center gap-3">
+                          <div key={categoryId} className="flex items-center gap-3">
                             <Checkbox
                               checked={selectedCategories.includes(categoryId)}
                               onChange={() => toggleCategory(categoryId)}
