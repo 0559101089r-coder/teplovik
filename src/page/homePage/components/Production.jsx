@@ -27,7 +27,7 @@ export default function Production() {
       </h2>
 
       <div className="mx-5">
-        <Swiper slidesPerView={4} spaceBetween={1} grabCursor={true} breakpoints={{
+        <Swiper slidesPerView={4} spaceBetween={12} grabCursor={true} breakpoints={{
           320: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
           1024: { slidesPerView: 4 },
@@ -35,19 +35,21 @@ export default function Production() {
           {slides.map((slide) => (
             <SwiperSlide
               key={slide.id}
-              className="w-[335px] h-[400px] rounded-[12px] overflow-hidden flex flex-col"
+              className="rounded-[8px] overflow-hidden flex flex-col"
             >
-              <img
-                src={slide.image}
-                alt={slide.description}
-                className="w-[313px] h-[390px] object-cover rounded-[12px]"
-              />
+              <div className="h-[326px] rounded-[8px] bg-white flex items-center justify-center">
+                <img
+                  src={slide.image}
+                  alt={slide.description}
+                  className="w-[62%] h-[62%] object-contain"
+                />
+              </div>
 
-              <p className="text-[#DC2626] font-roboto font-medium text-left mt-5 px-1 truncate">
+              <p className="text-[#DC2626] font-roboto font-medium text-left mt-6 px-0 text-[16px] leading-[20px] min-h-[40px]">
                 {slide.description}
               </p>
 
-              <div className="mt-2 px-1">
+              <div className="mt-2 px-0">
                 <img
                   src={button}
                   className="w-[99px] h-[33px] cursor-pointer hover:scale-110 transition-transform"
