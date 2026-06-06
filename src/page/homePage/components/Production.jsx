@@ -29,15 +29,15 @@ export default function Production() {
       <div className="mx-5">
         <Swiper
           slidesPerView="auto"
-          spaceBetween={6}
+          spaceBetween={15}
           grabCursor={true}
         >
           {slides.map((slide) => (
             <SwiperSlide
               key={slide.id}
-              className="!w-[clamp(155px,12.4vw,275px)] rounded-[8px] overflow-hidden flex flex-col"
+              className="!w-[335px] rounded-[8px] overflow-hidden flex flex-col"
             >
-              <div className="aspect-square rounded-[8px] bg-white flex items-center justify-center">
+              <div className="h-[390px] rounded-[8px] bg-white flex items-center justify-center">
                 <img
                   src={slide.image}
                   alt={slide.description}
@@ -45,11 +45,11 @@ export default function Production() {
                 />
               </div>
 
-              <p className="text-[#DC2626] font-roboto font-medium text-left mt-4 px-0 text-[clamp(10px,0.78vw,16px)] leading-[1.25] min-h-[2.5em]">
+              <p className="text-[#DC2626] font-roboto font-medium text-left mt-[30px] px-0 text-[20px] leading-[24px] min-h-[48px]">
                 {slide.description}
               </p>
 
-              <div className="mt-2 px-0">
+              <div className="mt-[18px] px-0">
                 <img
                   src={button}
                   className="w-[99px] h-[33px] cursor-pointer hover:scale-110 transition-transform"
