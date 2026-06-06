@@ -59,7 +59,7 @@ export default function BrandPage() {
           {brands?.results?.map((brand) => (
             <Link
               key={brand.id}
-              to={`/catalog?brand=${brand.id}`}
+              to={`/catalog?brand=${encodeURIComponent(brand.name)}`}
               className="flex items-center justify-center w-[160px] h-[90px]"
             >
               <img

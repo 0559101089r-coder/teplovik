@@ -116,7 +116,7 @@ export default function Filters({ initialFilters = {}, onFilter }) {
                     >
                       <option value="">Все бренды</option>
                       {brands.map((brand) => (
-                        <option key={brand.id} value={brand.id}>
+                        <option key={brand.id} value={brand.name}>
                           {brand.name}
                         </option>
                       ))}
