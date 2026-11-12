@@ -156,35 +156,41 @@ export default function CatalogPage() {
 
       
       {style === "list" && (
-        <div className="gap-8">
+        <div className="space-y-4">
 
           {products.map((product) => (
             <div
               key={product.id}
-              className="grid grid-cols-1 md:grid-cols-[1fr_auto] w-full bg-white rounded-xl shadow-sm p-4 items-center gap-4 md:gap-6 hover:shadow-md transition mb-4"
+              className="grid grid-cols-1 md:grid-cols-[1fr_auto] w-full bg-white rounded-xl shadow-sm p-4 items-center gap-4 md:gap-6 hover:shadow-md transition"
             >
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 min-w-0">
                 <div className="w-[90px] h-[90px] flex-shrink-0 flex items-center justify-center">
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={product.image ?? product.img}
+                    alt={product.name ?? product.title}
                     className="w-full h-full object-contain"
                   />
                 </div>
 
                 <div className="flex flex-col flex-1 min-w-0">
                   <p className="text-gray-700 font-semibold text-base md:text-lg leading-tight break-words">
-                    {product.name}
+                    {product.name ?? product.title}
                   </p>
 
+                  {product.description?.trim() && (
+                    <p className="mt-2 text-sm leading-5 text-gray-500 line-clamp-2">
+                      {product.description.trim()}
+                    </p>
+                  )}
+
                   <p className="text-red-500 font-bold text-lg md:text-xl mt-1">
-                    {product.price} сом
+                    {product.price} {"\u0441\u043e\u043c"}
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <div className="flex flex-row flex-wrap items-center gap-3 md:flex-nowrap">
 
                 <button
                   onClick={() => handleAddToCart(product)}
