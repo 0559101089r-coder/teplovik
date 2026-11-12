@@ -18,7 +18,7 @@ export default function CatalogCard({ product }) {
       <Link to={`/product/${product.id}`}>
         <img src={product?.img ?? product?.image} className="w-full h-[150px] sm:h-[170px] object-contain mb-5 sm:mb-8" alt={product.title} />
         <h3 className="text-base sm:text-lg font-roboto font-normal mb-3 break-words">{product.title}</h3>
-        <p className="text-[#FF0505] text-xl font-roboto font-bold mb-4">{product.price} сом</p>
+        <p className="text-[#FF0505] text-xl font-roboto font-bold mb-4">{product.price}</p>
       </Link>
 
       {product.option === 'size' ? <SizeSelector type={product.type} /> : product.option === 'color' ? <ColorSelector /> : null}
