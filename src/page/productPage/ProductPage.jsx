@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Breadcrumb, Spin, Result } from "antd";
+import { Breadcrumb, Spin, Result, message } from "antd";
 import addToCartBtn from "./pictures/cart.svg";
 import pdfIcon from "./pictures/pdfIcon.svg";
 import Counter from "../../counter/Counter";
@@ -73,6 +73,31 @@ export default function ProductPage() {
     navigate("/cart");
   };
 
+  const productDescription = typeof product.description === "string"
+    ? product.description.trim()
+    : "";
+  const passportUrl = [
+    product.passport,
+    product.passport_file,
+    product.passport_url,
+    product.documents?.passport,
+  ].find((file) => typeof file === "string" && file.trim());
+  const certificateUrl = [
+    product.certificate,
+    product.certificate_file,
+    product.certificate_url,
+    product.documents?.certificate,
+  ].find((file) => typeof file === "string" && file.trim());
+
+  const handleDocumentOpen = (fileUrl, documentName) => {
+    if (!fileUrl) {
+      message.info(`${documentName} пока не добавлен.`);
+      return;
+    }
+
+    window.open(fileUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="w-full bg-[#F9F9F9] min-h-screen pb-20">
       <div className="p-5">
@@ -118,6 +143,15 @@ export default function ProductPage() {
               </span>
             )}
           </div>
+
+          {productDescription && (
+            <section className="mb-6">
+              <h2 className="mb-2 text-base font-semibold text-[#111827]">Описание</h2>
+              <p className="whitespace-pre-line break-words text-sm leading-6 text-[#4B5563] sm:text-[15px]">
+                {productDescription}
+              </p>
+            </section>
+          )}
 
           {product.sizes && product.sizes.length > 0 && (
             <div className="mb-6">
@@ -189,19 +223,27 @@ export default function ProductPage() {
 
       <div className="max-w-[470px] px-4 sm:px-5 mt-4">
         <div className="bg-white border border-gray-300 rounded-xl overflow-hidden">
-          <div className="flex items-center justify-between px-3 py-2">
+          <button
+            type="button"
+            onClick={() => handleDocumentOpen(passportUrl, "\u041f\u0430\u0441\u043f\u043e\u0440\u0442")}
+            className="flex w-full items-center justify-between px-3 py-2 text-left transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-inset"
+          >
             <span className="text-[16px] font-medium">Паспорт</span>
-            <img src={pdfIcon} className="w-5" />
-          </div>
+            <img src={pdfIcon} className="w-5" alt="PDF" />
+          </button>
 
           <div className="h-px bg-gray-300" />
 
-          <div className="flex items-center justify-between px-3 py-2">
+          <button
+            type="button"
+            onClick={() => handleDocumentOpen(certificateUrl, "\u0421\u0435\u0440\u0442\u0438\u0444\u0438\u043a\u0430\u0442 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u044f")}
+            className="flex w-full items-center justify-between px-3 py-2 text-left transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-inset"
+          >
             <span className="text-[16px] font-medium">
               Сертификат соответствия
             </span>
-            <img src={pdfIcon} className="w-5" />
-          </div>
+            <img src={pdfIcon} className="w-5" alt="PDF" />
+          </button>
         </div>
       </div>
     </div>

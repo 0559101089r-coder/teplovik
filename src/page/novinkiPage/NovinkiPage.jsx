@@ -93,7 +93,7 @@ export default function Products() {
                   {p.name}
                 </p>
                 <p className="text-red-500 font-bold text-lg md:text-xl mt-1">
-                  {p.price} сом
+                  {p.price}
                 </p>
               </div>
 

@@ -38,7 +38,7 @@ export default function ProductCard({ product }) {
         </h3>
 
         <p className="text-[#FF0505] text-lg sm:text-xl font-roboto font-bold mb-4">
-          {product.price} сом
+          {product.price}
         </p>
       </Link>
 
