@@ -195,7 +195,7 @@ export default function ProductPage() {
             </div>
           )}
 
-          <div className="text-[35px] font-bold mb-1">{product.price} сом</div>
+          <div className="text-[35px] font-bold mb-1">{product.price}</div>
 
           <div className="mb-6 flex flex-col md:flex-row items-start md:items-center gap-2 text-[13px] text-gray-800">
             <p>Наличие на центральном складе:</p>

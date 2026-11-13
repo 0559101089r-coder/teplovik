@@ -67,7 +67,7 @@ export default function CartPage() {
                   </div>
 
                   <div className="md:col-span-2 font-medium">
-                    {Number(item.price).toLocaleString()} сом
+                    {Number(item.price).toLocaleString()}
                   </div>
 
                   <div className="md:col-span-2 flex md:justify-center">
@@ -78,7 +78,7 @@ export default function CartPage() {
                   </div>
 
                   <div className="md:col-span-2 flex items-center md:justify-end gap-4 font-medium">
-                    {(Number(item.price) * item.qty).toLocaleString()} сом
+                    {(Number(item.price) * item.qty).toLocaleString()}
                     <img
                       src={closeIcon}
                       className="w-4 cursor-pointer opacity-60 hover:opacity-100"
@@ -116,12 +116,12 @@ export default function CartPage() {
 
               <div className="flex justify-between text-gray-500 mb-3">
                 <span>Товары ({cartItems.length} шт.)</span>
-                <span>{total.toLocaleString()} сом</span>
+                <span>{total.toLocaleString()}</span>
               </div>
 
               <div className="border-t border-gray-300 pt-4 flex justify-between text-lg font-semibold">
                 <span>К оплате</span>
-                <span>{total.toLocaleString()} сом</span>
+                <span>{total.toLocaleString()}</span>
               </div>
             </div>
           </div>

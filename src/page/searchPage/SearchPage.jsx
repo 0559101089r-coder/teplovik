@@ -137,7 +137,7 @@ function ProductCard({ product, onAddToCart }) {
           alt={product.name}
         />
         <h3 className="text-lg font-normal mb-2">{product.name}</h3>
-        <p className="text-[#FF0505] text-xl font-bold mb-4">{product.price} сом</p>
+        <p className="text-[#FF0505] text-xl font-bold mb-4">{product.price}</p>
       </Link>
 
       <button
