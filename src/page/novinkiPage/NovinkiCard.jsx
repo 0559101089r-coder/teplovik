@@ -8,7 +8,6 @@ import Counter from "../../counter/Counter";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useContext(CartContext);
-  const hasPrice = Boolean(String(product?.price ?? '').trim()) && Number(product.price) !== 0;
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -39,22 +38,22 @@ export default function ProductCard({ product }) {
         </h3>
 
         <p className="text-[#FF0505] text-lg sm:text-xl font-roboto font-bold mb-4 min-h-7">
-          {hasPrice ? product.price : 'Цена по запросу'}
+          {product.price}
         </p>
       </Link>
 
-      {hasPrice && renderOptions()}
+      {renderOptions()}
 
-      {hasPrice && <img
+      <img
         src={AddToCartButton}
         alt="Добавить в корзину"
         className="w-full max-w-[230px] cursor-pointer select-none hover:scale-110 transition-transform mb-2"
         onClick={handleAddToCart}
-      />}
+      />
 
-      {hasPrice && <div className="flex justify-center mt-2">
+      <div className="flex justify-center mt-2">
         <Counter productId={product.id} />
-      </div>}
+      </div>
     </div>
   );
 }

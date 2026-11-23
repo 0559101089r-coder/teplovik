@@ -9,8 +9,6 @@ import Counter from "../../counter/Counter";
 import { useProducts } from "./module/catalog";
 import { Spin, Result } from "antd";
 
-const hasPrice = (price) => Boolean(String(price ?? "").trim()) && Number(price) !== 0;
-
 export default function CatalogPage() {
   const [style, setStyle] = useState("card");
   const [searchParams] = useSearchParams();
@@ -187,12 +185,12 @@ export default function CatalogPage() {
                   )}
 
                   <p className="text-red-500 font-bold text-lg md:text-xl mt-1">
-                    {hasPrice(product.price) ? `${product.price} сом` : "Цена по запросу"}
+                    {product.price} {"\u0441\u043e\u043c"}
                   </p>
                 </div>
               </div>
 
-              {hasPrice(product.price) && <div className="flex flex-row flex-wrap items-center gap-3 md:flex-nowrap">
+              <div className="flex flex-row flex-wrap items-center gap-3 md:flex-nowrap">
 
                 <button
                   onClick={() => handleAddToCart(product)}
@@ -209,7 +207,7 @@ export default function CatalogPage() {
                   <Counter productId={product.id} />
                 </div>
 
-              </div>}
+              </div>
             </div>
           ))}
 

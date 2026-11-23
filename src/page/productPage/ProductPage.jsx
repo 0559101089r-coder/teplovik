@@ -11,7 +11,6 @@ import { useBrands } from "../brandPage/module/brand";
 
 const getList = (data) => data?.results || data || [];
 const normalizeBrandName = (name = "") => String(name).trim().toLowerCase();
-const hasPrice = (price) => Boolean(String(price ?? "").trim()) && Number(price) !== 0;
 
 export default function ProductPage() {
   const navigate = useNavigate();
@@ -65,8 +64,6 @@ export default function ProductPage() {
   }
 
   const handleAddToCart = () => {
-    if (!hasPrice(product.price)) return;
-
     addToCart({ 
       ...product, 
       qty: count,
@@ -198,9 +195,7 @@ export default function ProductPage() {
             </div>
           )}
 
-          <div className="text-[35px] font-bold mb-1">
-            {hasPrice(product.price) ? product.price : "Цена по запросу"}
-          </div>
+          <div className="text-[35px] font-bold mb-1">{product.price}</div>
 
           <div className="mb-6 flex flex-col md:flex-row items-start md:items-center gap-2 text-[13px] text-gray-800">
             <p>Наличие на центральном складе:</p>
@@ -212,17 +207,17 @@ export default function ProductPage() {
             </p>
           </div>
 
-          {hasPrice(product.price) && <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
             <div className="text-[15px] font-medium text-[#374151]">Количество:</div>
             <Counter productId={product.id} />
-          </div>}
+          </div>
 
-          {hasPrice(product.price) && <img
+          <img
             src={addToCartBtn}
             className="w-full max-w-[500px] cursor-pointer select-none hover:scale-110 transition-transform"
             onClick={handleAddToCart}
             alt="Добавить в корзину"
-          />}
+          />
         </div>
       </div>
 

@@ -128,8 +128,6 @@ function SectionLoader({ label }) {
 }
 
 function ProductCard({ product, onAddToCart }) {
-  const hasPrice = Boolean(String(product?.price ?? "").trim()) && Number(product.price) !== 0;
-
   return (
     <div className="bg-white rounded-2xl p-6 flex flex-col justify-between hover:shadow-md transition">
       <Link to={`/product/${product.id}`}>
@@ -140,16 +138,16 @@ function ProductCard({ product, onAddToCart }) {
         />
         <h3 className="text-lg font-normal mb-2">{product.name}</h3>
         <p className="text-[#FF0505] text-xl font-bold mb-4 min-h-7">
-          {hasPrice ? product.price : "Цена по запросу"}
+          {product.price}
         </p>
       </Link>
 
-      {hasPrice && <button
+      <button
         onClick={() => onAddToCart(product)}
         className="w-full bg-[#121212] text-white py-2.5 rounded-xl text-sm font-medium hover:bg-[#FF0505] transition-colors"
       >
         В корзину
-      </button>}
+      </button>
     </div>
   );
 }
