@@ -6,6 +6,8 @@ import { CartContext } from "../../CardContext";
 import AddToCartButton from "./picsNovinki/CartButton.svg";
 import Counter from "../../counter/Counter";
 
+const hasPrice = (price) => Boolean(String(price ?? "").trim()) && Number(price) !== 0;
+
 export default function Products() {
   const [style, setStyle] = useState("card");
   const { addToCart } = useContext(CartContext);
@@ -93,20 +95,20 @@ export default function Products() {
                   {p.name}
                 </p>
                 <p className="text-red-500 font-bold text-lg md:text-xl mt-1">
-                  {p.price}
+                  {hasPrice(p.price) ? p.price : "Цена по запросу"}
                 </p>
               </div>
 
-              <button
+              {hasPrice(p.price) && <button
                 onClick={() => addToCart(product_wrapper(p))}
                 className="w-12 h-12 flex items-center justify-center rounded-xl"
               >
                 <img src={AddToCartButton} alt="Добавить в корзину" className="w-[60px] h-[60px]" />
-              </button>
+              </button>}
 
-              <div>
+              {hasPrice(p.price) && <div>
                 <Counter productId={p.id} />
-              </div>
+              </div>}
             </div>
           ))}
         </div>

@@ -61,8 +61,35 @@ export const clearCart = async () => {
 };
 
 export const getProducts = async (params = {}) => {
-  const response = await requester.get('/catalog/products/', { params });
-  return response.data;
+  const response = await requester.get('/catalog/products/', {
+    params: { page_size: 99, ...params },
+  });
+
+  const firstPage = response.data;
+
+  // The API may enforce its own page size. Follow `next` so no products are
+  // silently omitted if it returns fewer than the requested 99 items.
+  if (!firstPage?.next || !Array.isArray(firstPage.results)) {
+    return firstPage;
+  }
+
+  const results = [...firstPage.results];
+  const requestedPages = new Set();
+  let nextPage = firstPage.next;
+
+  while (nextPage && !requestedPages.has(nextPage)) {
+    requestedPages.add(nextPage);
+    const nextResponse = await requester.get(nextPage);
+    const nextData = nextResponse.data;
+
+    if (Array.isArray(nextData?.results)) {
+      results.push(...nextData.results);
+    }
+
+    nextPage = nextData?.next;
+  }
+
+  return { ...firstPage, results, next: null };
 };
 
 export const getProductById = async (id) => {

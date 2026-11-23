@@ -11,6 +11,7 @@ export default function CatalogCard({ product }) {
   const productName = product?.name ?? product?.title;
   const productImage = product?.image ?? product?.img;
   const productDescription = product?.description?.trim();
+  const hasPrice = Boolean(String(product?.price ?? '').trim()) && Number(product.price) !== 0;
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -26,21 +27,23 @@ export default function CatalogCard({ product }) {
             {productDescription}
           </p>
         )}
-        <p className="text-[#FF0505] text-xl font-roboto font-bold mb-4">{product.price}</p>
+        <p className="text-[#FF0505] text-xl font-roboto font-bold mb-4 min-h-7">
+          {hasPrice ? product.price : 'Цена по запросу'}
+        </p>
       </Link>
 
-      {product.option === 'size' ? <SizeSelector type={product.type} /> : product.option === 'color' ? <ColorSelector /> : null}
+      {hasPrice && (product.option === 'size' ? <SizeSelector type={product.type} /> : product.option === 'color' ? <ColorSelector /> : null)}
 
-      <img
+      {hasPrice && <img
         src={AddToCartButton}
         alt="Добавить в корзину"
         className="mb-4 w-full max-w-[230px] cursor-pointer select-none hover:scale-110 transition-transform"
         onClick={handleAddToCart}
-      />
+      />}
 
-      <div className="flex justify-center mt-2">
+      {hasPrice && <div className="flex justify-center mt-2">
         <Counter productId={product.id} />
-      </div>
+      </div>}
     </div>
   );
 }
